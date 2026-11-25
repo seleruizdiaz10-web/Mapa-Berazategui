@@ -1,0 +1,682 @@
+:root {
+  --indigo: #28196e;
+  --orange: #e67a17;
+  --orange-dark: #c9660c;
+  --sky: #299fd3;
+  --bg: #EDE8D0;
+  --white: #ffffff;
+  --text: #1c2333;
+  --text-muted: #5b6472;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, sans-serif;
+  color: var(--text);
+  background-color: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== HEADER ===== */
+.site-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  background-color: var(--indigo);
+  border-bottom: 3px solid var(--orange);
+}
+
+.site-header .logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9);
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.header-title {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.15;
+}
+
+.header-subtitle {
+  font-size: 0.74rem;
+  color: #cfe0f5;
+  font-weight: 500;
+}
+
+/* ===== MAIN / CARD ===== */
+.main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 14px;
+}
+
+.card-container {
+  background: var(--white);
+  width: 100%;
+  max-width: 480px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  border-top: 4px solid var(--orange);
+  box-shadow: 0 6px 20px rgba(20, 30, 60, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: max-width 0.3s ease;
+}
+
+.title {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--indigo);
+  text-align: center;
+}
+
+.select-location {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #dcdfe6;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: var(--text);
+  background-color: #f8f9fa;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.select-location:focus-visible {
+  border-color: var(--sky);
+  box-shadow: 0 0 0 3px rgba(41, 159, 211, 0.25);
+}
+
+#map {
+  width: 100%;
+  height: 290px;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+}
+
+#status-bar {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.btn-action {
+  width: 100%;
+  padding: 10px 14px;
+  background-color: var(--indigo);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.btn-action:hover:not(:disabled) {
+  background-color: var(--orange-dark);
+}
+
+.btn-action:focus-visible {
+  outline: 3px solid var(--sky);
+  outline-offset: 2px;
+}
+
+.btn-action:disabled {
+  background-color: #b7bdd6;
+  cursor: not-allowed;
+}
+
+/* Estilo para el botón de cancelar */
+.btn-cancel {
+  width: 100%;
+  padding: 10px 14px;
+  background-color: #dc3545;
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.btn-cancel:hover {
+  background-color: #bb2d3b;
+}
+
+.btn-cancel:focus-visible {
+  outline: 3px solid var(--sky);
+  outline-offset: 2px;
+}
+
+/* ===== TARJETA DE INFORMACIÓN DEL SITIO ===== */
+.poi-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(40, 25, 110, 0.08);
+  animation: fadeInPOI 0.3s ease-out;
+}
+
+@keyframes fadeInPOI {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.poi-image-container {
+  position: relative;
+  width: 100%;
+  height: 135px;
+  background-color: #f1f5f9;
+  overflow: hidden;
+}
+
+.poi-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.poi-image-container:hover .poi-image {
+  transform: scale(1.03);
+}
+
+.poi-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: rgba(40, 25, 110, 0.88);
+  color: var(--white);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 16px;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.poi-details {
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.poi-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.poi-nombre {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--indigo);
+  line-height: 1.2;
+}
+
+.poi-direccion {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.poi-descripcion {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: #334155;
+  border-left: 3px solid var(--orange);
+  padding-left: 8px;
+  background: #fff9f2;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-radius: 0 6px 6px 0;
+}
+
+/* Sección de colectivos y paradas */
+.poi-transport-section {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.poi-section-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--indigo);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.colectivos-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.bus-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 9px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  transition: transform 0.15s ease;
+  user-select: none;
+}
+
+.bus-pill:hover {
+  transform: translateY(-2px);
+}
+
+/* Colores de colectivos populares de la zona */
+.bus-pill-98  { background-color: #b91c1c; } /* Rojo */
+.bus-pill-129 { background-color: #9d174d; } /* Fucsia / Plaza */
+.bus-pill-159 { background-color: #0284c7; } /* Azul MOQSA */
+.bus-pill-195 { background-color: #881337; } /* Costera Bordó */
+.bus-pill-219 { background-color: #15803d; } /* Verde */
+.bus-pill-273 { background-color: #4338ca; } /* Azul Unión Platense */
+.bus-pill-300 { background-color: #d97706; } /* Naranja */
+.bus-pill-324 { background-color: #7e22ce; } /* Violeta Primera Junta */
+.bus-pill-338 { background-color: #0d9488; } /* TALP Costera */
+.bus-pill-418 { background-color: #0284c7; } /* Celeste / Azul */
+.bus-pill-603 { background-color: #ea580c; } /* Comunal Naranja */
+.bus-pill-619 { background-color: #334155; } /* Comunal Gris */
+.bus-pill-default { background-color: #4b5563; }
+
+.poi-stops-box, .poi-routes-box {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.poi-sub-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.poi-list {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.poi-list li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: #475569;
+}
+
+.poi-list li::before {
+  content: "•";
+  position: absolute;
+  left: 2px;
+  color: var(--orange);
+  font-weight: bold;
+}
+
+.poi-extra-info {
+  font-size: 0.8rem;
+  background: #eff6ff;
+  border-left: 3px solid #2563eb;
+  padding: 6px 10px;
+  border-radius: 4px;
+  color: #1e40af;
+  font-weight: 600;
+}
+
+/* Marcadores de paradas de colectivo en el mapa */
+.bus-stop-pin {
+  width: 26px;
+  height: 26px;
+  background-color: #ffffff;
+  border: 2px solid #0284c7;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.bus-stop-pin:hover {
+  transform: scale(1.25);
+  border-color: var(--orange);
+}
+
+/* Estilos de los Popups de Mapbox */
+.mapboxgl-popup-content {
+  border-radius: 10px;
+  padding: 12px 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  font-family: system-ui, sans-serif;
+  max-width: 260px;
+}
+
+.popup-title {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--indigo);
+  margin-bottom: 3px;
+}
+
+.popup-address {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 5px;
+}
+
+.popup-buses {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #0369a1;
+  background: #f0f9ff;
+  padding: 3px 6px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* ===== NOTIFICACIÓN EN PÁGINA (TOAST RECORRIDO) ===== */
+.route-toast {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  width: calc(100% - 28px);
+  max-width: 420px;
+  background: var(--white);
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  border-left: 5px solid var(--orange);
+  box-shadow: 0 10px 28px rgba(20, 30, 60, 0.22);
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  animation: slideInToast 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideInToast {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -18px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.toast-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.toast-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--white);
+  background-color: var(--indigo);
+  padding: 3px 8px;
+  border-radius: 12px;
+  letter-spacing: 0.3px;
+}
+
+.toast-close-btn {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0 4px;
+  transition: color 0.15s ease;
+}
+
+.toast-close-btn:hover {
+  color: var(--indigo);
+}
+
+.toast-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.toast-title {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--indigo);
+  margin: 0;
+}
+
+.toast-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 1px;
+}
+
+.toast-stat-item {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 5px 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toast-stat-icon {
+  font-size: 1.2rem;
+}
+
+.toast-stat-label {
+  display: block;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.toast-stat-value {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--indigo);
+}
+
+.toast-detail {
+  font-size: 0.75rem;
+  color: #475569;
+  margin: 0;
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  text-align: center;
+  padding: 8px 16px;
+  background-color: var(--indigo);
+  border-top: 3px solid var(--orange);
+  color: #cfe0f5;
+  font-size: 0.74rem;
+}
+
+/* ===== RESPONSIVE ESCRITORIO (Computadora: Información a la derecha del mapa) ===== */
+@media (min-width: 820px) {
+  .main-content {
+    padding: 8px 16px;
+  }
+
+  .card-container:has(#poi-info:not([style*="display: none"])),
+  .card-container.has-poi {
+    max-width: 940px;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    grid-template-areas:
+      "title title"
+      "select select"
+      "map info"
+      "status info"
+      "actions info";
+    column-gap: 20px;
+    row-gap: 8px;
+    align-items: start;
+    padding: 16px 20px;
+  }
+
+  .card-container:has(#poi-info:not([style*="display: none"])) .title,
+  .card-container.has-poi .title {
+    grid-area: title;
+  }
+
+  .card-container:has(#poi-info:not([style*="display: none"])) .select-location,
+  .card-container.has-poi .select-location {
+    grid-area: select;
+  }
+
+  .card-container:has(#poi-info:not([style*="display: none"])) #map,
+  .card-container.has-poi #map {
+    grid-area: map;
+    height: 315px;
+  }
+
+  .card-container:has(#poi-info:not([style*="display: none"])) #status-bar,
+  .card-container.has-poi #status-bar {
+    grid-area: status;
+    margin-top: 1px;
+  }
+
+  .card-container:has(#poi-info:not([style*="display: none"])) .btn-action,
+  .card-container:has(#poi-info:not([style*="display: none"])) .btn-cancel,
+  .card-container.has-poi .btn-action,
+  .card-container.has-poi .btn-cancel {
+    grid-area: actions;
+  }
+
+  .card-container:has(#poi-info:not([style*="display: none"])) .poi-card,
+  .card-container.has-poi .poi-card {
+    grid-area: info;
+    max-height: 395px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--orange) #f1f5f9;
+  }
+
+  .poi-card::-webkit-scrollbar {
+    width: 6px;
+  }
+  .poi-card::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 6px;
+  }
+  .poi-card::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 6px;
+  }
+  .poi-card::-webkit-scrollbar-thumb:hover {
+    background: var(--orange);
+  }
+}
+
+/* ===== RESPONSIVE CELULAR (Móvil: Información abajo del mapa) ===== */
+@media (max-width: 819px) {
+  .main-content {
+    padding: 8px 12px;
+  }
+
+  .card-container {
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px 16px;
+  }
+
+  #map {
+    height: 240px;
+  }
+
+  .poi-card {
+    width: 100%;
+  }
+}
+
+/* ===== RESPONSIVE PANTALLAS PEQUEÑAS ===== */
+@media (max-width: 420px) {
+  .site-header { padding: 8px 12px; gap: 10px; }
+  .site-header .logo { width: 38px; height: 38px; }
+  .header-title { font-size: 0.95rem; }
+  .header-subtitle { font-size: 0.68rem; }
+  .card-container { padding: 12px 14px; }
+  #map { height: 210px; }
+}
+
+/* ===== ACCESIBILIDAD ===== */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

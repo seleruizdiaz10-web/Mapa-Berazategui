@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa Berazategui</title>
+
+  <!-- Tipografía -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+
+  <!-- Mapbox GL JS -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <img src="logo-eest5.jpg" alt="Logo EEST N°5" class="logo">
+    <div class="header-text">
+      <h1 class="header-title">EEST N°5</h1>
+      <p class="header-subtitle">Programación</p>
+    </div>
+  </header>
+
+  <!-- Notificación en página del recorrido activo -->
+  <div id="route-toast" class="route-toast" style="display: none;" role="alert" aria-live="assertive">
+    <div class="toast-header">
+      <span class="toast-badge">🚗 Recorrido Activo</span>
+      <button id="toast-close" class="toast-close-btn" aria-label="Cerrar notificación">&times;</button>
+    </div>
+    <div class="toast-body">
+      <h4 id="toast-title" class="toast-title">Destino</h4>
+      <div class="toast-stats">
+        <div class="toast-stat-item">
+          <span class="toast-stat-icon">⏱️</span>
+          <div>
+            <span class="toast-stat-label">Tiempo est.</span>
+            <strong id="toast-time" class="toast-stat-value">Calculando...</strong>
+          </div>
+        </div>
+        <div class="toast-stat-item">
+          <span class="toast-stat-icon">📏</span>
+          <div>
+            <span class="toast-stat-label">Distancia</span>
+            <strong id="toast-distance" class="toast-stat-value">Calculando...</strong>
+          </div>
+        </div>
+      </div>
+      <p id="toast-detail" class="toast-detail">🛰️ Obteniendo señal GPS y trazando ruta óptima...</p>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="card-container">
+      <h2 class="title">Recorrido Berazategui</h2>
+
+      <select id="poi-select" class="select-location">
+        <option value="" disabled selected>Seleccioná un punto de interés...</option>
+        <option value="-58.2086,-34.7639">Estación Berazategui</option>
+        <option value="-58.1802142,-34.843959">Parque Pereyra Iraola</option>
+        <option value="-58.2145,-34.7539">Plaza ducilo</option>
+      </select>
+
+      <div id="map"></div>
+
+      <!-- Tarjeta informativa del sitio seleccionado -->
+      <section id="poi-info" class="poi-card" style="display: none;" aria-live="polite">
+        <div class="poi-image-container">
+          <img id="poi-image" src="" alt="Imagen de referencia" class="poi-image">
+          <span id="poi-badge" class="poi-badge"></span>
+        </div>
+        
+        <div class="poi-details">
+          <div class="poi-header-info">
+            <h3 id="poi-nombre" class="poi-nombre"></h3>
+            <p id="poi-direccion" class="poi-direccion"></p>
+          </div>
+          
+          <p id="poi-descripcion" class="poi-descripcion"></p>
+
+          <div class="poi-transport-section">
+            <h4 class="poi-section-title">
+              <span class="icon">🚌</span> Colectivos que te acercan:
+            </h4>
+            
+            <div id="poi-colectivos-pills" class="colectivos-pills"></div>
+            
+            <div class="poi-stops-box">
+              <p class="poi-sub-title">🚏 Paradas cercanas:</p>
+              <ul id="poi-paradas-list" class="poi-list"></ul>
+            </div>
+
+            <div class="poi-routes-box">
+              <p class="poi-sub-title">📋 Ramales y destinos principales:</p>
+              <ul id="poi-ramales-list" class="poi-list"></ul>
+            </div>
+
+            <div id="poi-extra-info" class="poi-extra-info" style="display: none;"></div>
+          </div>
+        </div>
+      </section>
+
+      <div id="status-bar">Elegí un destino para comenzar</div>
+
+      <button id="btn-start" class="btn-action" disabled>Ir a la localización</button>
+      <!-- Botón de Cancelar Recorrido -->
+      <button id="btn-cancel" class="btn-cancel" style="display: none;">Cancelar recorrido</button>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>Proyecto escolar de la EEST N°5, orientación en Programación.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
